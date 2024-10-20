@@ -9,7 +9,6 @@ import org.delivery.storeadmin.domain.sse.connection.SseConnectionPool;
 import org.delivery.storeadmin.domain.storemenu.converter.StoreMenuConverter;
 import org.delivery.storeadmin.domain.storemenu.service.StoreMenuService;
 import org.delivery.storeadmin.domain.userorder.controller.model.UserOrderDetailResponse;
-import org.delivery.storeadmin.domain.userorder.controller.model.UserOrderManegerRequest;
 import org.delivery.storeadmin.domain.userorder.controller.model.UserOrderResponse;
 import org.delivery.storeadmin.domain.userorder.converter.UserOrderConverter;
 import org.delivery.storeadmin.domain.userorder.service.UserOrderService;
