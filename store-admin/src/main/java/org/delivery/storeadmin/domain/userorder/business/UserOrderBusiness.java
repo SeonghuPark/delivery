@@ -2,11 +2,15 @@ package org.delivery.storeadmin.domain.userorder.business;
 
 import lombok.RequiredArgsConstructor;
 import org.delivery.common.message.model.UserOrderMessage;
+import org.delivery.db.userorder.UserOrderRepository;
+import org.delivery.db.userorder.enums.UserOrderStatus;
 import org.delivery.storeadmin.common.annotation.Business;
 import org.delivery.storeadmin.domain.sse.connection.SseConnectionPool;
 import org.delivery.storeadmin.domain.storemenu.converter.StoreMenuConverter;
 import org.delivery.storeadmin.domain.storemenu.service.StoreMenuService;
 import org.delivery.storeadmin.domain.userorder.controller.model.UserOrderDetailResponse;
+import org.delivery.storeadmin.domain.userorder.controller.model.UserOrderManegerRequest;
+import org.delivery.storeadmin.domain.userorder.controller.model.UserOrderResponse;
 import org.delivery.storeadmin.domain.userorder.converter.UserOrderConverter;
 import org.delivery.storeadmin.domain.userorder.service.UserOrderService;
 import org.delivery.storeadmin.domain.userordermenu.service.UserOrderMenuService;
@@ -26,6 +30,7 @@ public class UserOrderBusiness {
     private final StoreMenuService storeMenuService;
 
     private final StoreMenuConverter storeMenuConverter;
+    private final UserOrderRepository userOrderRepository;
 
     /*
     *  주문
@@ -67,4 +72,15 @@ public class UserOrderBusiness {
         userConnection.sendMessage(push);
     }
 
+    public UserOrderResponse acceptUserOrder(UserOrderManegerRequest request) {
+        var userOrderEntity = userOrderService.getUserOrder(request.getId())
+                .orElseThrow(
+                        () -> new RuntimeException("사용자 주문내역 없음"));
+
+        userOrderEntity.setStatus(UserOrderStatus.ACCEPT);
+
+        userOrderRepository.save(userOrderEntity);
+
+        return userOrderConverter.toResponse(userOrderEntity);
+    }
 }

@@ -66,6 +66,22 @@
         methods: {
             acceptOrder(order) {
                 console.log("주문수락:", order);
+
+                fetch("/api/manage-user-order/accept", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(order)
+                    }
+                )
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("응답수신:", data);
+                    })
+                    .catch(error => {
+                        console.error("오류발생:", error);
+                    });
             },
             startCooking(order) {
                 console.log("조리시작:", order);
